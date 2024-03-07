@@ -11,6 +11,7 @@ public:
     std::vector<double> a, b, c, d, x, y;
     int nx;
 
+    CubicSpline1D() = default; // デフォルトコンストラクタの追加
     CubicSpline1D(const std::vector<double>& x, const std::vector<double>& y);
 
     double calc_position(double x_query);

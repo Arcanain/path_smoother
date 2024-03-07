@@ -11,7 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 
-# Add the executable
+# cubic_spline_1d_node
 add_executable(cubic_spline_1d_node src/cubic_spline_1d_node.cpp src/cubic_spline_1d_component.cpp)
 ament_target_dependencies(cubic_spline_1d_node
   rclcpp
@@ -25,9 +25,24 @@ target_link_libraries(cubic_spline_1d_node
   ${EIGEN3_LIBRARIES}
 )
 
+# cubic_spline_2d_node
+add_executable(cubic_spline_2d_node src/cubic_spline_2d_node.cpp src/cubic_spline_1d_component.cpp src/cubic_spline_2d_component.cpp)
+ament_target_dependencies(cubic_spline_2d_node
+  rclcpp
+  OpenCV
+)
+target_include_directories(cubic_spline_2d_node PUBLIC
+  include
+  ${EIGEN3_INCLUDE_DIRS}
+)
+target_link_libraries(cubic_spline_2d_node
+  ${EIGEN3_LIBRARIES}
+)
+
 # Install the executable
 install(TARGETS
   cubic_spline_1d_node
+  cubic_spline_2d_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

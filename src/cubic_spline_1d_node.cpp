@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
-    auto node = rclcpp::Node::make_shared("cubic_spline_interpolation");
+    auto node = rclcpp::Node::make_shared("cubic_spline_1d_node");
 
     std::vector<double> x = {-0.5, 0.0, 0.5, 1.0, 1.5};
     std::vector<double> y = {3.2, 2.7, 6, 5, 6.5};
