@@ -14,6 +14,8 @@ public:
     CubicSpline1D(const std::vector<double>& x, const std::vector<double>& y);
 
     double calc_position(double x_query);
+    double calc_first_derivative(double x_query);
+    double calc_second_derivative(double x_query);
 
 private:
     Eigen::MatrixXd calc_A(const std::vector<double>& h);

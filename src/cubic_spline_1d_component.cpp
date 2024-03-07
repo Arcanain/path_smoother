@@ -44,7 +44,31 @@ double CubicSpline1D::calc_position(double x_query) {
 
     int i = search_index(x_query);
     double dx = x_query - x[i];
-    return a[i] + b[i] * dx + c[i] * dx * dx + d[i] * dx * dx * dx;
+    double pos = a[i] + b[i] * dx + c[i] * dx * dx + d[i] * dx * dx * dx;
+    return pos;
+}
+
+double CubicSpline1D::calc_first_derivative(double x_query) {
+    if (x_query < x[0] || x_query > x[nx - 1]) {
+        return std::nan("");
+    }
+
+    int i = search_index(x_query);
+    double dx = x_query - x[i];
+    double dy = b[i] + 2.0 * c[i] * dx + 3.0 * d[i] * dx * dx;
+    return dy;
+}
+
+double CubicSpline1D::calc_second_derivative(double x_query) {
+    if (x_query < x[0] || x_query > x[nx - 1])
+    {
+        return std::nan("");
+    }
+
+    int i = search_index(x_query);
+    double dx = x_query - x[i];
+    double ddy = 2.0 * c[i] + 6.0 * d[i] * dx;
+    return ddy;
 }
 
 Eigen::MatrixXd CubicSpline1D::calc_A(const std::vector<double>& h) {
