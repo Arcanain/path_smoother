@@ -1,5 +1,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "path_smoother/cubic_spline_1d.hpp"
+#include <opencv2/opencv.hpp>
 
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
@@ -45,6 +46,29 @@ int main(int argc, char **argv) {
         std::cout << val << " ";
     }
     std::cout << std::endl;
+
+    // グラフの描画領域を作成
+    int width = 400, height = 300;
+    cv::Mat graph(height, width, CV_8UC3, cv::Scalar(255, 255, 255));
+
+    // データ点と線を描画
+    for (size_t i = 0; i < xi.size(); ++i)
+    {
+        int x = static_cast<int>((xi[i] + 2.0) / 4.0 * width);  // スケーリング
+        int y = height - static_cast<int>((yi[i] / 7.0) * height); // スケーリング
+        cv::circle(graph, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1); // データ点
+
+        if (i > 0)
+        {
+            int x_prev = static_cast<int>((xi[i - 1] + 2.0) / 4.0 * width);
+            int y_prev = height - static_cast<int>((yi[i - 1] / 7.0) * height);
+            cv::line(graph, cv::Point(x_prev, y_prev), cv::Point(x, y), cv::Scalar(255, 0, 0), 2); // 線
+        }
+    }
+
+    // グラフの表示
+    cv::imshow("Cubic Spline Interpolation", graph);
+    cv::waitKey(0);
 
     rclcpp::shutdown();
     return 0;

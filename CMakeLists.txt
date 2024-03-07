@@ -9,11 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
 
 # Add the executable
 add_executable(cubic_spline_1d_node src/cubic_spline_1d_node.cpp src/cubic_spline_1d_component.cpp)
 ament_target_dependencies(cubic_spline_1d_node
   rclcpp
+  OpenCV
 )
 target_include_directories(cubic_spline_1d_node PUBLIC
   include
@@ -32,7 +34,11 @@ install(TARGETS
 include_directories(
   include
   ${EIGEN3_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
+
+# Export dependencies
+ament_export_dependencies(OpenCV) 
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
