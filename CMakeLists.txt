@@ -8,6 +8,10 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 
@@ -39,10 +43,37 @@ target_link_libraries(cubic_spline_2d_node
   ${EIGEN3_LIBRARIES}
 )
 
+# cubic_spline_node
+add_executable(cubic_spline_node src/cubic_spline_node.cpp src/cubic_spline_1d_component.cpp src/cubic_spline_2d_component.cpp)
+ament_target_dependencies(cubic_spline_node
+  rclcpp
+  tf2_geometry_msgs
+  tf2_ros
+  nav_msgs
+  OpenCV
+)
+target_include_directories(cubic_spline_node PUBLIC
+  include
+  ${EIGEN3_INCLUDE_DIRS}
+)
+target_link_libraries(cubic_spline_node
+  ${EIGEN3_LIBRARIES}
+)
+
+# path_publisher
+add_executable(path_publisher src/path_publisher.cpp)
+ament_target_dependencies(path_publisher
+  rclcpp
+  nav_msgs
+  geometry_msgs
+)
+
 # Install the executable
 install(TARGETS
   cubic_spline_1d_node
   cubic_spline_2d_node
+  cubic_spline_node
+  path_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -52,8 +83,21 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
+# Install other files
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}
+)
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
 # Export dependencies
 ament_export_dependencies(OpenCV) 
+
+# include ディレクトリをエクスポート
+ament_export_include_directories(include)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
