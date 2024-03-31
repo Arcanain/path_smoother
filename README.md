@@ -125,6 +125,7 @@ classDiagram
     }
 
     CubicSplinePathPublisher ..> CubicSpline2D: Uses
+    CubicSplinePathPublisher ..> PathPublisher: path_
 
     class PathPublisher {
         +PathPublisher()
