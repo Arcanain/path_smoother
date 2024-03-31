@@ -88,6 +88,17 @@ classDiagram
 ```
 
 ### Flowchart
+```mermaid
+flowchart TD
+    A[Start] --> B[Create CubicSpline1D for x and y]
+    B --> C[Calculate Cumulative Distance s]
+    C --> D[Create CubicSpline1D for sx and sy using s]
+    D --> E[Calculate Position at s_query]
+    E --> F[Calculate Curvature at s_query]
+    E --> G[Calculate Yaw at s_query]
+    F --> H[End]
+    G --> H
+```
 
 ## Functional Requirements
 
