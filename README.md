@@ -45,9 +45,32 @@ path_smoother/
 
 ### Input
 
+| Variable Name      | Type            | Description                         |
+|-------------------------|-------------------|---------------------------------------|
+| `x`, `y`                     | `std::vector<double>`       | Input coordinates for spline interpolation.                |
+| `s_query`                    | `double`                    | Query parameter for position, curvature, and yaw.          |
+
 ### Output
 
+| Variable Name      | Type            | Description                         |
+|-------------------------|-------------------|---------------------------------------|
+| `calc_position()`            | `double`, `std::pair<double, double>` | Returns the position at a given query parameter `s_query`. |
+| `calc_curvature()`           | `double`                    | Returns the curvature at a given query parameter `s_query`.|
+| `calc_yaw()`                 | `double`                    | Returns the yaw angle at a given query parameter `s_query`.|
+| `get_s_max()`                | `double`                    | Returns the maximum value of the parameter `s`.            |
+
 ### Internal Values
+
+| Variable Name      | Type            | Description                         |
+|-------------------------|-------------------|---------------------------------------|
+| `a`, `b`, `c`, `d`           | `std::vector<double>`       | Coefficients for the cubic spline interpolation.           |
+| `nx`                         | `int`                       | Number of data points.                                     |
+| `s`, `ds`                    | `std::vector<double>`       | Parameters for the 2D spline.                              |
+| `sx`, `sy`                   | `CubicSpline1D`             | 1D splines for the x and y coordinates.                    |
+| `rx_`, `ry_`, `ryaw_`, `rk_` | `std::vector<double>`       | Results of spline interpolation (position, yaw, curvature).|
+| `path_`                      | `std::vector<std::vector<double>>` | Path data for saving to CSV.                              |
+| `path_pub_`                  | `rclcpp::Publisher`         | ROS 2 publisher for the path.                              |
+| `timer_`                     | `rclcpp::TimerBase`         | ROS 2 timer for publishing the path.                       |
 
 ## Software architecture
 
