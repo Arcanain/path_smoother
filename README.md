@@ -109,40 +109,6 @@ classDiagram
         -void calc_s(vector<double>&, vector<double>&)
     }
     CubicSpline2D --|> CubicSpline1D: Contains
-```
-
-```mermaid
-classDiagram
-    class CubicSpline1D {
-        +std::vector<double> a
-        +std::vector<double> b
-        +std::vector<double> c
-        +std::vector<double> d
-        +std::vector<double> x
-        +std::vector<double> y
-        +int nx
-        +CubicSpline1D(vector<double>&, vector<double>&)
-        +double calc_position(double)
-        +double calc_first_derivative(double)
-        +double calc_second_derivative(double)
-        -Eigen::MatrixXd calc_A(vector<double>&)
-        -Eigen::VectorXd calc_B(vector<double>&)
-        -int search_index(double)
-    }
-
-    class CubicSpline2D {
-        +CubicSpline2D(vector<double>&, vector<double>&)
-        +std::pair<double, double> calc_position(double)
-        +double calc_curvature(double)
-        +double calc_yaw(double)
-        +double get_s_max()
-        +std::vector<double> s
-        +std::vector<double> ds
-        +CubicSpline1D sx
-        +CubicSpline1D sy
-        -void calc_s(vector<double>&, vector<double>&)
-    }
-    CubicSpline2D --|> CubicSpline1D: Contains
 
     class CubicSplinePathPublisher {
         +CubicSplinePathPublisher()
@@ -159,6 +125,18 @@ classDiagram
     }
 
     CubicSplinePathPublisher ..> CubicSpline2D: Uses
+
+    class PathPublisher {
+        +PathPublisher()
+        +void loadPathData(string&)
+        +void publishPath()
+        -rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_
+        -rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr visualize_path_pub_
+        -rclcpp::TimerBase::SharedPtr timer_
+        -nav_msgs::msg::Path path_
+        -nav_msgs::msg::Path visualize_path_
+    }
+
 ```
 
 ### Flowchart
