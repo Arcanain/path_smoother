@@ -6,6 +6,7 @@
 </p>
 
 ## Functional Overview
+This source code implements a cubic spline path planner for autonomous vehicles or robots. 
 
 ## Requirements
 ### System Requirements
