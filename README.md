@@ -1,5 +1,26 @@
-### Folder structure
+<p style="display: inline">
+  <!-- Programming Language -->
+  <img src="https://img.shields.io/badge/-C++-00599C.svg?logo=c%2B%2B&style=for-the-badge">
+  <!-- ROS 2 -->
+  <img src="https://img.shields.io/badge/-ROS%202-22314E.svg?logo=ros&style=for-the-badge&logoColor=white">
+</p>
 
+## Functional Overview
+
+## Requirements
+### System Requirements
+- OS : Ubuntu 22.04  
+- ROS2 : Humble
+
+## How To Use
+### Execution Steps
+```bash
+cd ~/ros2_ws
+source ~/ros2_ws/install/setup.bash
+ros2 launch path_smoother path_smoother.py
+```
+
+### Folder structure
 ```
 path_smoother/
 ├── include/                     - Directory for header files
@@ -19,3 +40,55 @@ path_smoother/
 ├── CMakeLists.txt               - CMake build configuration file
 └── package.xml                  - ROS 2 package metadata file
 ```
+
+## Interface Table
+
+### Input
+
+### Output
+
+### Internal Values
+
+## Software architecture
+
+### Class Diagram
+
+```mermaid
+classDiagram
+    class CubicSpline1D {
+        +std::vector<double> a
+        +std::vector<double> b
+        +std::vector<double> c
+        +std::vector<double> d
+        +std::vector<double> x
+        +std::vector<double> y
+        +int nx
+        +CubicSpline1D(vector<double>&, vector<double>&)
+        +double calc_position(double)
+        +double calc_first_derivative(double)
+        +double calc_second_derivative(double)
+        -Eigen::MatrixXd calc_A(vector<double>&)
+        -Eigen::VectorXd calc_B(vector<double>&)
+        -int search_index(double)
+    }
+
+    class CubicSpline2D {
+        +CubicSpline2D(vector<double>&, vector<double>&)
+        +std::pair<double, double> calc_position(double)
+        +double calc_curvature(double)
+        +double calc_yaw(double)
+        +double get_s_max()
+        +std::vector<double> s
+        +std::vector<double> ds
+        +CubicSpline1D sx
+        +CubicSpline1D sy
+        -void calc_s(vector<double>&, vector<double>&)
+    }
+    CubicSpline2D --|> CubicSpline1D: Contains
+```
+
+### Flowchart
+
+## Functional Requirements
+
+## Detailed Design
