@@ -37,6 +37,8 @@ std::pair<double, double> CubicSpline2D::calc_position(double s_query) {
     return std::make_pair(x, y);
 }
 
+//曲率演算
+//s_query:前方注視点とロボット座標の差分dx,dy
 double CubicSpline2D::calc_curvature(double s_query) {
     double dx = sx.calc_first_derivative(s_query);
     double ddx = sx.calc_second_derivative(s_query);

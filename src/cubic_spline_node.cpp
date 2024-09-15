@@ -29,7 +29,7 @@ public:
         // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
         // ファイルのフルパスを組み立てる
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/simulation_path.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/obstacle_simulation_path.csv";
 
         // ファイルを開く
         std::ofstream file(file_path);
@@ -111,10 +111,12 @@ int main(int argc, char **argv)
     rclcpp::init(argc, argv);
     auto node = std::make_shared<CubicSplinePathPublisher>();
 
-    // std::vector<double> x = {-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0};
-    // std::vector<double> y = {0.7, -6, 5, 6.5, 0.0, 5.0, -2.0};
-    std::vector<double> x = {0.0, 1.0, 1.5, 3.0, 4.0};
-    std::vector<double> y = {0.0, 1.0, 1.5, 1.0, 0.0};
+    //std::vector<double> x = {-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0};
+    //std::vector<double> y = {0.7, -6, 5, 6.5, 0.0, 5.0, -2.0};
+    //std::vector<double> x = {0.0, 1.0, 1.5, 3.0, 4.0};
+    //std::vector<double> y = {0.0, 1.0, 1.5, 1.0, 0.0};
+    std::vector<double> x = {0.0, 1.0, 2.0, 3.0, 4.0, 3.0};
+    std::vector<double> y = {0.0, 1.0, 2.0, 1.0, 0.0, -2.0};
     double ds = 0.1;
 
     CubicSpline2D sp(x, y);

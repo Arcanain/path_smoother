@@ -60,6 +60,24 @@ target_link_libraries(cubic_spline_node
   ${EIGEN3_LIBRARIES}
 )
 
+# save_path
+add_executable(save_path src/save_path.cpp src/cubic_spline_1d_component.cpp src/cubic_spline_2d_component.cpp)
+ament_target_dependencies(save_path
+  rclcpp
+  tf2_geometry_msgs
+  tf2_ros
+  nav_msgs
+  OpenCV
+  
+)
+target_include_directories(save_path PUBLIC
+  include
+  ${EIGEN3_INCLUDE_DIRS}
+)
+target_link_libraries(save_path
+  ${EIGEN3_LIBRARIES}
+)
+
 # path_publisher
 add_executable(path_publisher src/path_publisher.cpp)
 ament_target_dependencies(path_publisher
@@ -73,6 +91,7 @@ install(TARGETS
   cubic_spline_1d_node
   cubic_spline_2d_node
   cubic_spline_node
+  save_path
   path_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
