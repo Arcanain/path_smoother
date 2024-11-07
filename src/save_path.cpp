@@ -22,8 +22,7 @@ public:
     {
         path_pub_ = this->create_publisher<nav_msgs::msg::Path>("tgt_path", 10);
         odom_sub = this->create_subscription<nav_msgs::msg::Odometry>(
-            "odom", 10, std::bind(&SavePath::odometry_callback, this, _1));
-
+            "/odom", 10, std::bind(&SavePath::odometry_callback, this, _1));
         // shutdown時の処理を登録
         rclcpp::on_shutdown([this]() {
             RCLCPP_INFO(this->get_logger(), "shutdown!");
