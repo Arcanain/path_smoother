@@ -18,10 +18,10 @@ public:
     : Node("complement_path") {
         // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tukuba_2023_temp.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_2023_deleate.csv";
         
         // ファイルのフルパスを組み立てる
-        std::string open_path = home_dir + "/ros2_ws/src/path_smoother/path/tukuba_2023_complement.csv";
+        std::string open_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_2023_complement_tom.csv";
         output_file_.open(open_path);
         if (output_file_.is_open()) {
             output_file_ << "x,y,z,w0,w1,w2,w3\n";
@@ -60,9 +60,10 @@ private:
             double distance = std::hypot(dx, dy);
 
             if(distance > 1.0){
+                RCLCPP_INFO(this->get_logger(), "x, y : %lf, %lf", this_x, this_y); // Log the number of loaded poses
                 double ds = 0.1;
-                spline_x = {this_x, pre_x};
-                spline_y = {this_y, pre_y};
+                spline_x = {pre_x, this_x};
+                spline_y = {pre_y, this_y};
 
                 CubicSpline2D sp(spline_x, spline_y);
 
@@ -125,7 +126,8 @@ private:
                             << std::stod(row_data[5]) << ","
                             << std::stod(row_data[6]) << "\n";
             }
-
+            pre_x = this_x;
+            pre_y = this_y;
             pose_count++; // Increment the counter
         }
         if (output_file_.is_open()) {
