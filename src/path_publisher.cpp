@@ -17,7 +17,7 @@ public:
         // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
         // ファイルのフルパスを組み立てる
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_2023_complement_tom.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_11_09.csv";
         loadPathData(file_path);
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(100), std::bind(&PathPublisher::publishPath, this));
