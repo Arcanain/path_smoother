@@ -10,14 +10,14 @@
 class PathPublisher : public rclcpp::Node {
 public:
     PathPublisher()
-    : Node("path_publisher_gps") {
+    : Node("path_publisher_gps_last") {
         path_pub_ = this->create_publisher<nav_msgs::msg::Path>("tgt_path", 10);
         visualize_path_pub_ = this->create_publisher<nav_msgs::msg::Path>("visualize_tgt_path", 10);
 
         // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
         // ファイルのフルパスを組み立てる
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/test_seikei_1201_gps.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/test_seikei_1201_gps_last.csv";
         //std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/02tsukuba_gps_11_23.csv";
         loadPathData(file_path);
         timer_ = this->create_wall_timer(

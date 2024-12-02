@@ -151,6 +151,14 @@ ament_target_dependencies(path_publisher_gps
   geometry_msgs
 )
 
+# path_publisher_gps
+add_executable(path_publisher_gps_last src/path_publisher_gps_last.cpp)
+ament_target_dependencies(path_publisher_gps_last
+  rclcpp
+  nav_msgs
+  geometry_msgs
+)
+
 # Install the executable
 install(TARGETS
   cubic_spline_1d_node
@@ -162,6 +170,7 @@ install(TARGETS
   complement_path
   path_publisher
   path_publisher_gps
+  path_publisher_gps_last
   DESTINATION lib/${PROJECT_NAME}
 )
 
