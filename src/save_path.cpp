@@ -124,7 +124,7 @@ public:
         // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
         // ファイルのフルパスを組み立てる
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/odom_no_imu_path.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/odom_1204.csv";
 
         // ファイルを開く
         std::ofstream file(file_path);
