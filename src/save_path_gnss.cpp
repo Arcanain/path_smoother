@@ -33,7 +33,7 @@ public:
 
         // CSVファイルの初期化
         std::string home_dir = getenv("HOME");
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_path_2023.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/04_tsukuba_performance_2024.csv";
         output_file_.open(file_path);
         if (output_file_.is_open()) {
             output_file_ << "x,y,z,w0,w1,w2,w3\n";
@@ -91,6 +91,8 @@ public:
         void pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
         {
             double dist = std::sqrt(std::pow(msg->pose.position.x - pre_x, 2) + std::pow(msg->pose.position.y - pre_y, 2));
+            RCLCPP_INFO(this->get_logger(), "x: %lf", msg->pose.position.x);
+            RCLCPP_INFO(this->get_logger(), "y: %lf", msg->pose.position.y);
             if (dist > dist_thread) {
                 x.push_back(msg->pose.position.x);
                 y.push_back(msg->pose.position.y);
@@ -110,7 +112,8 @@ public:
 
                 times += 1 ;
 
-                if (times == 5){
+                if (times == 3){
+
                     CubicSpline2D sp(x, y);
 
                     std::vector<double> s_values;
