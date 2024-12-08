@@ -33,7 +33,7 @@ public:
 
         // CSVファイルの初期化
         std::string home_dir = getenv("HOME");
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/04_tsukuba_performance_2024.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_1208.csv";
         output_file_.open(file_path);
         if (output_file_.is_open()) {
             output_file_ << "x,y,z,w0,w1,w2,w3\n";
@@ -112,7 +112,7 @@ public:
 
                 times += 1 ;
 
-                if (times == 3){
+                if (times == 2){
 
                     CubicSpline2D sp(x, y);
 
