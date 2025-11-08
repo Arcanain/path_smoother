@@ -143,6 +143,14 @@ ament_target_dependencies(path_publisher
   geometry_msgs
 )
 
+# waypoint_publisher
+add_executable(waypoint_publisher src/waypoint_publisher.cpp)
+ament_target_dependencies(waypoint_publisher
+  rclcpp
+  nav_msgs
+  geometry_msgs
+)
+
 # path_publisher_gps
 add_executable(path_publisher_gps src/path_publisher_gps.cpp)
 ament_target_dependencies(path_publisher_gps
@@ -177,6 +185,7 @@ install(TARGETS
   save_path_emcl
   complement_path
   path_publisher
+  waypoint_publisher
   path_publisher_gps
   path_publisher_gps_last
   path_publisher_gps_04
