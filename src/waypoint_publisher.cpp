@@ -20,7 +20,7 @@ public:
             "odom", 10, std::bind(&PathPublisher::odom_callback, this, std::placeholders::_1));
 
         std::string home_dir = getenv("HOME");
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/seikei_1207_emcl.csv";
+        std::string file_path = home_dir + "/2025_ros2_ws/src/path_smoother/path/tsukuba_1018_2025.csv";
         loadPathData(file_path);
 
         generateWaypoints(); // 曲率に基づいてウェイポイント生成
@@ -80,7 +80,7 @@ private:
         }
 
         double min_interval = 0.1;
-        double max_interval = 1.0;
+        double max_interval = 0.5;
 
         geometry_msgs::msg::PoseStamped prev_pose = path_.poses.front();
         waypoint_list_.push_back(prev_pose);
@@ -122,17 +122,42 @@ private:
 
         double x = msg->pose.pose.position.x;
         double y = msg->pose.pose.position.y;
+
+        // --- 初回のみ、最も近いウェイポイントを探索 ---
+        if (!init_waypooint_flag) {
+            double min_dist = std::numeric_limits<double>::max();
+            int nearest_index = 0;
+
+            for (size_t i = 0; i < waypoint_list_.size(); ++i) {
+                double wx = waypoint_list_[i].pose.position.x;
+                double wy = waypoint_list_[i].pose.position.y;
+                double dist = std::hypot(x - wx, y - wy);
+                if (dist < min_dist) {
+                    min_dist = dist;
+                    nearest_index = static_cast<int>(i);
+                }
+            }
+
+            current_waypoint_index = nearest_index;
+            init_waypooint_flag = true;
+
+            RCLCPP_INFO(this->get_logger(),
+                "Initial waypoint selected: index=%d (dist=%.2f m)", current_waypoint_index, min_dist);
+        }
+
+        // --- 通常のウェイポイント更新処理 ---
         double goal_x = waypoint_list_[current_waypoint_index].pose.position.x;
         double goal_y = waypoint_list_[current_waypoint_index].pose.position.y;
-
         double distance_to_goal = std::hypot(x - goal_x, y - goal_y);
-        if (distance_to_goal < 2.0) {
-            RCLCPP_INFO(this->get_logger(), "distance_to_goal: %.2f", distance_to_goal);
+
+        if (distance_to_goal < 1.4) {
+            RCLCPP_INFO(this->get_logger(), "Reached waypoint[%d]: distance=%.2f", current_waypoint_index, distance_to_goal);
             current_waypoint_index = (current_waypoint_index + 1) % waypoint_list_.size();
         }
 
         waypoint_pub_->publish(waypoint_list_[current_waypoint_index]);
     }
+
 
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_;
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr visualize_path_pub_;
@@ -143,6 +168,7 @@ private:
     nav_msgs::msg::Path visualize_path_;
     std::vector<geometry_msgs::msg::PoseStamped> waypoint_list_;
     int current_waypoint_index;
+    bool init_waypooint_flag = false;
 };
 
 int main(int argc, char* argv[]) {

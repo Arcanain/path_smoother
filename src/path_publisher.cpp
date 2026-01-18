@@ -18,7 +18,7 @@ public:
         std::string home_dir = getenv("HOME");
         // ファイルのフルパスを組み立てる
         //std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/02_tsukuba_performance_2024_emcl.csv";
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/seikei_1207_emcl.csv";
+        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/2025_1018_emcl.csv";
         //std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_fix_11_23.csv";
         //std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/02tsukuba_gps_11_23.csv";
         loadPathData(file_path);
