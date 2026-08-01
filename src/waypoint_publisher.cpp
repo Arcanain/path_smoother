@@ -20,7 +20,8 @@ public:
             "odom", 10, std::bind(&PathPublisher::odom_callback, this, std::placeholders::_1));
 
         std::string home_dir = getenv("HOME");
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_1018_2025.csv"; //"/2025_ros2_ws/src/path_smoother/path/tsukuba_1018_2025.csv";
+        std::string default_path = home_dir + "/ros2_ws/src/path_smoother/path/tsukuba_1018_2025.csv";
+        std::string file_path = this->declare_parameter<std::string>("path_file", default_path);
         loadPathData(file_path);
 
         generateWaypoints(); // 曲率に基づいてウェイポイント生成

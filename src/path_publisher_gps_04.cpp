@@ -14,11 +14,9 @@ public:
         path_pub_ = this->create_publisher<nav_msgs::msg::Path>("tgt_path", 10);
         visualize_path_pub_ = this->create_publisher<nav_msgs::msg::Path>("visualize_tgt_path", 10);
 
-        // ホームディレクトリのパスを取得
         std::string home_dir = getenv("HOME");
-        // ファイルのフルパスを組み立てる
-        std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/obstacle_simulation_path.csv";
-        //std::string file_path = home_dir + "/ros2_ws/src/path_smoother/path/02tsukuba_gps_11_23.csv";
+        std::string default_path = home_dir + "/ros2_ws/src/path_smoother/path/obstacle_simulation_path.csv";
+        std::string file_path = this->declare_parameter<std::string>("path_file", default_path);
         loadPathData(file_path);
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(100), std::bind(&PathPublisher::publishPath, this));
