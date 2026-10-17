@@ -13,9 +13,13 @@ class PathPublisher : public rclcpp::Node {
 public:
     PathPublisher()
     : Node("waypoint_publisher"), current_waypoint_index(0) {
+        
+        // Publisher
         path_pub_ = this->create_publisher<nav_msgs::msg::Path>("tgt_path", 10);
         visualize_path_pub_ = this->create_publisher<nav_msgs::msg::Path>("visualize_tgt_path", 10);
         waypoint_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("waypoint", 10);
+        
+        // Subscriber
         odom_sub = this->create_subscription<nav_msgs::msg::Odometry>(
             "odom", 10, std::bind(&PathPublisher::odom_callback, this, std::placeholders::_1));
 
