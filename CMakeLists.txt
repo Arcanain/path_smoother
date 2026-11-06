@@ -168,8 +168,8 @@ ament_target_dependencies(path_publisher_gps_last
 )
 
 # path_publisher_gps
-add_executable(path_publisher_gps_04 src/path_publisher_gps_04.cpp)
-ament_target_dependencies(path_publisher_gps_04
+add_executable(path_publisher_sim src/path_publisher_sim.cpp)
+ament_target_dependencies(path_publisher_sim
   rclcpp
   nav_msgs
   geometry_msgs
@@ -188,7 +188,7 @@ install(TARGETS
   waypoint_publisher
   path_publisher_gps
   path_publisher_gps_last
-  path_publisher_gps_04
+  path_publisher_sim
   DESTINATION lib/${PROJECT_NAME}
 )
 

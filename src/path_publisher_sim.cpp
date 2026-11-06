@@ -10,12 +10,12 @@
 class PathPublisher : public rclcpp::Node {
 public:
     PathPublisher()
-    : Node("path_publisher_gps_04") {
+    : Node("path_publisher_sim") {
         path_pub_ = this->create_publisher<nav_msgs::msg::Path>("tgt_path", 10);
         visualize_path_pub_ = this->create_publisher<nav_msgs::msg::Path>("visualize_tgt_path", 10);
 
         std::string home_dir = getenv("HOME");
-        std::string default_path = home_dir + "/ros2_ws/src/path_smoother/path/obstacle_simulation_path.csv";
+        std::string default_path = home_dir + "/ros2_ws_dev/src/path_smoother/path/merged_01_07.csv";
         std::string file_path = this->declare_parameter<std::string>("path_file", default_path);
         loadPathData(file_path);
         timer_ = this->create_wall_timer(
